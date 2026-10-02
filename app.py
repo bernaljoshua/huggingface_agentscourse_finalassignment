@@ -3,6 +3,7 @@ import gradio as gr
 import requests
 import inspect
 import pandas as pd
+from smolagents import DuckDuckGoSearchTool, InferenceClientModel, CodeAgent
 
 # (Keep Constants as is)
 # --- Constants ---
@@ -11,13 +12,27 @@ DEFAULT_API_URL = "https://agents-course-unit4-scoring.hf.space"
 # --- Basic Agent Definition ---
 # ----- THIS IS WERE YOU CAN BUILD WHAT YOU WANT ------
 class BasicAgent:
+    
+    
     def __init__(self):
-        print("BasicAgent initialized.")
+        # Put reusable setup here (for example, load a knowledge base or client).
+        self.known_answers = {
+            "capital of france": "Paris",
+            "largest planet": "Jupiter",
+        }
+        print("Sample rule-based agent initialized.")
+        searchTool = DuckDuckGoSearchTool()
+        model = InferenceClientModel(model_id="Qwen/Qwen2.5-Coder-32B-Instruct", max_tokens=2000)
+        self.agent = CodeAgent(
+                tools=[searchTool],
+                model=model,
+                max_steps=5,
+                instructions="You are a general-purpose agent that can answer questions using the provided tools. Use the tools as needed to find information and provide accurate answers. Make sure to double check your sources to ensure that your answers are as accurate as possible. Answer the exact question. Do not add unrelated background. Use the web search tool for current, obscure, or uncertain facts. For simple, stable facts, answer directly. Treat search results as evidence, not guaranteed truth. If results conflict, look for confirmation from other source when possible.Do not invent facts or claim you verified something you did not. If the evidence is insufficient, say so briefly. If you cannot find an answer, respond with 'I don't know.' Return only the answer, without any additional commentary or explanation."
+            )
+
     def __call__(self, question: str) -> str:
-        print(f"Agent received question (first 50 chars): {question[:50]}...")
-        fixed_answer = "This is a default answer."
-        print(f"Agent returning fixed answer: {fixed_answer}")
-        return fixed_answer
+        result=self.agent.run(question)
+        return str(result)    
 
 def run_and_submit_all( profile: gr.OAuthProfile | None):
     """
