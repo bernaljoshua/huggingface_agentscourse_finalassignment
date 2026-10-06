@@ -1,0 +1,8 @@
+.venv/
+__pycache__/
+*.py[cod]
+answers_cache.json
+.env
+.env.*
+.gradio/
+venv/
