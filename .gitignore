@@ -1,1 +1,12 @@
+<<<<<<< HEAD
 .env
+=======
+.venv/
+__pycache__/
+*.py[cod]
+answers_cache.json
+.env
+.env.*
+.gradio/
+venv/
+>>>>>>> c701337cfe4d3627526098b66bafd6dfa90941ee

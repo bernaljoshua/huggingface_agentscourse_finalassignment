@@ -1,3 +1,15 @@
-gradio
+gradio[oauth]
 requests
 smolagents
+pandas
+ddgs
+openai
+openpyxl
+beautifulsoup4
+huggingface_hub
+markdownify
+Pillow
+pypdf
+youtube-transcript-api
+yt-dlp
+imageio-ffmpeg
